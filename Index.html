@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Video Studio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Lottie for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
+  <!-- ffmpeg.wasm for video editing in browser -->
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js" defer></script>
+  <script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>AI Video Studio</h1>
+    <nav>
+      <button id="btn-new" class="btn">New Project</button>
+      <button id="btn-save" class="btn secondary">Save Project</button>
+      <button id="btn-load" class="btn secondary">Load Project</button>
+      <button id="btn-export" class="btn primary">Export Video</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <aside class="left">
+      <section class="card">
+        <h2>1) Source Media</h2>
+        <label class="file">
+          <input id="video-input" type="file" accept="video/*" />
+          <span>Select a video</span>
+        </label>
+        <label class="file">
+          <input id="audio-input" type="file" accept="audio/*" />
+          <span>(Optional) Add background music</span>
+        </label>
+        <div class="tip">Or load a sample: 
+          <button id="btn-sample" class="chip">Load sample</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2) Script</h2>
+        <textarea id="script" rows="8" placeholder="Write script. Use [00:05-00:12] to mark trim ranges. Use {Character: tone=excited}"></textarea>
+        <div class="row">
+          <select id="character-select">
+            <option value="astro">Astro</option>
+            <option value="nova">Nova</option>
+            <option value="bot">Robo</option>
+            <option value="narrator">Narrator</option>
+          </select>
+          <select id="tone-select">
+            <option value="default">Default</option>
+            <option value="excited">Excited</option>
+            <option value="serious">Serious</option>
+            <option value="friendly">Friendly</option>
+            <option value="whisper">Whisper</option>
+          </select>
+          <button id="btn-generate-tts" class="btn">Generate Voice</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>3) Animation</h2>
+        <div class="row">
+          <select id="animation-select">
+            <option value="none">— None —</option>
+            <option value="confetti">Confetti</option>
+            <option value="pulse">Pulse</option>
+            <option value="sparkle">Sparkle</option>
+          </select>
+          <button id="btn-add-animation" class="btn">Add</button>
+          <button id="btn-clear-animation" class="btn secondary">Clear</button>
+        </div>
+      </section>
+    </aside>
+
+    <section class="center">
+      <div class="stage card">
+        <div class="stage-wrap">
+          <video id="player" controls></video>
+          <canvas id="overlay"></canvas>
+          <div id="lottie-container" class="lottie"></div>
+        </div>
+        <div class="row">
+          <label>Start <input id="trim-start" type="number" min="0" step="0.1" value="0" /></label>
+          <label>End <input id="trim-end" type="number" min="0" step="0.1" value="10" /></label>
+          <button id="btn-trim" class="btn">Trim</button>
+          <button id="btn-generate-captions" class="btn secondary">Auto Captions</button>
+        </div>
+      </div>
+
+      <div class="timeline card">
+        <h2>Timeline</h2>
+        <div id="timeline" class="timeline-track"></div>
+      </div>
+    </section>
+
+    <aside class="right">
+      <section class="card">
+        <h2>Export</h2>
+        <button id="btn-record" class="btn">Start Capture</button>
+        <button id="btn-stop" class="btn danger">Stop</button>
+        <div id="export-log" class="export-log"></div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <span>© 2025 AI Video Studio</span>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+  </html>
