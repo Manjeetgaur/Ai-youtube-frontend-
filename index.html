@@ -10,6 +10,10 @@
   <!-- ffmpeg.wasm for video editing in browser -->
   <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js" defer></script>
   <script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js" defer></script>
+  <script async defer src="https://apis.google.com/js/api.js" 
+        onload="this.onload=function(){};initGoogleAPI()" 
+        onreadystatechange="if (this.readyState==='complete') this.onload()">
+  </script>
 </head>
 <body>
   <header class="app-header">
@@ -19,6 +23,7 @@
       <button id="btn-save" class="btn secondary">Save Project</button>
       <button id="btn-load" class="btn secondary">Load Project</button>
       <button id="btn-export" class="btn primary">Export Video</button>
+      <button onclick="authenticate().then(loadClient)">Login with Google</button>
     </nav>
   </header>
 
